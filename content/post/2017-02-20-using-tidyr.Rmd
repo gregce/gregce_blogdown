@@ -1,0 +1,58 @@
+---
+title: Using Tidyr
+date: '2017-02-20'
+hidefromhome: true
+---
+
+I believe it's fitting that my first foray into blogging about `R` programming should be about a topic & package (`tidyr`) that are essential to a practicing Data Scientist's toolkit - data munging. Hadley Wickham's package [`tidyr`](https://github.com/hadley/tidyr) provides a number of convenience functions to, in his words, ensure that:
+
+- Each column is a variable.
+- Each row is an observation.
+
+Why is this important you might ask? Well for a number of reasons but below are the most important two:
+
+1. Many `R` functions expect a `data.frame` to be passed in as a parameter (i.e the fundamental data structure in R, which in most cases fits the definition of "tidy" above)
+2. This standard, very akin to the relational database model developed by Codd, allows you to not have to reinvent a represtation at each go and rather focus on the analysis/exploration/visualization processes that got your excited about `R` programming in the first place.
+
+Like most, I enjoy applied examples, and when I originally read Hadley's original [Rstudio post](https://blog.rstudio.org/2014/07/22/introducing-tidyr/) introducing `tidyr` I felt it was a bit lacking in explanation and didn't necessarily help `tidyr` to truly shine. The purpose of this post is to show you how `tidyr`'s main features compares to common SQL commands used to pivot/un-pivot data as well as parse values into columns (which occaisionally may be difficult -> impossible depending on your SQL flavor).
+
+For the purpose of both clarity and brevity, I will only use the following packages in this post:
+
+- `tidyr`: the package of interest. Specially we'll cover it's four main verbs:
+    - `gather()` 
+    - `spread()` 
+    - `unite()`
+    - `separate()` 
+- `SQLDF`: a package developed developed by G. Grothendieck that allows one to write SQL against data.frames
+- `dplyr`: another one of Hadely's packages that makes data manipulation in `R`, SQL-like
+- `stringr`: yet another one of Hadley's packages for string manipulation
+- `RMedicareData`: a personal package I developed which can be used to source example data from [data.medicare.gov/](https://data.medicare.gov/)
+
+To demonstrate the functionality of `tidyr`, I will:
+
+1. Source an example dataset
+2. Demonstrate each of the `tidyr` functions of note
+3. And finally, show the SQL, using `sqldf`, that would be required to conduct an analagous operation 
+
+# Source our data
+```{r, echo=TRUE, eval=FALSE}
+library(RMedicareData)
+list_data()
+# source a dataset consisting of Readmissions and Death statistics as the hospital level
+d <- get_data(59)
+# take a glimpse
+```
+
+# Demo Spread
+# Source our data
+```{r, echo=TRUE, eval=FALSE}
+library(tidyr)
+# source a dataset consisting of Readmissions and Death statistics as the hospital level
+d1 <- d %>% 
+  select(Hospital.Name, Measure.Name, Score) %>% 
+  spread(key = Measure.Name, value = Score)
+# take a glimpse
+```
+
+
+

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.18.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<link rel="stylesheet" href="../../../../css/normalize.css">
+<link rel="stylesheet" href="../../../../css/skeleton.css">
+<link rel="stylesheet" href="../../../../css/custom.css">
+<link rel="alternate" href="../../../../index.xml" type="application/rss+xml" title="Hi, I&#39;m Greg Ceccarelli">
+<title>Using Tidyr - Hi, I&#39;m Greg Ceccarelli</title>
+
+
+
+</head>
+<body>
+
+<div class="container">
+
+	<header role="banner">
+		<div class="header-logo">
+			<a href="../../../../"><img src="../../../../images/gdc_avatar.png" width="60" height="60" alt="Hi, I&#39;m Greg Ceccarelli"></a>
+		</div>
+		
+	</header>
+
+
+	<main role="main">
+		<article itemscope itemtype="http://schema.org/BlogPosting">
+			<h1 class="entry-title" itemprop="headline">Using Tidyr</h1>
+			<span class="entry-meta"><time itemprop="datePublished" datetime="2017-02-20">February 20, 2017</time></span>
+			<section itemprop="entry-text">
+
+
+
+<p>I believe it’s fitting that my first foray into blogging about <code>R</code> programming should be about a topic &amp; package (<code>tidyr</code>) that are essential to a practicing Data Scientist’s toolkit - data munging. Hadley Wickham’s package <a href="https://github.com/hadley/tidyr"><code>tidyr</code></a> provides a number of convenience functions to, in his words, ensure that:</p>
+<ul>
+<li>Each column is a variable.</li>
+<li>Each row is an observation.</li>
+</ul>
+<p>Why is this important you might ask? Well for a number of reasons but below are the most important two:</p>
+<ol style="list-style-type: decimal">
+<li>Many <code>R</code> functions expect a <code>data.frame</code> to be passed in as a parameter (i.e the fundamental data structure in R, which in most cases fits the definition of “tidy” above)</li>
+<li>This standard, very akin to the relational database model developed by Codd, allows you to not have to reinvent a represtation at each go and rather focus on the analysis/exploration/visualization processes that got your excited about <code>R</code> programming in the first place.</li>
+</ol>
+<p>Like most, I enjoy applied examples, and when I originally read Hadley’s original <a href="https://blog.rstudio.org/2014/07/22/introducing-tidyr/">Rstudio post</a> introducing <code>tidyr</code> I felt it was a bit lacking in explanation and didn’t necessarily help <code>tidyr</code> to truly shine. The purpose of this post is to show you how <code>tidyr</code>’s main features compares to common SQL commands used to pivot/un-pivot data as well as parse values into columns (which occaisionally may be difficult -&gt; impossible depending on your SQL flavor).</p>
+<p>For the purpose of both clarity and brevity, I will only use the following packages in this post:</p>
+<ul>
+<li><code>tidyr</code>: the package of interest. Specially we’ll cover it’s four main verbs:
+<ul>
+<li><code>gather()</code></li>
+<li><code>spread()</code></li>
+<li><code>unite()</code></li>
+<li><code>separate()</code></li>
+</ul></li>
+<li><code>SQLDF</code>: a package developed developed by G. Grothendieck that allows one to write SQL against data.frames</li>
+<li><code>dplyr</code>: another one of Hadely’s packages that makes data manipulation in <code>R</code>, SQL-like</li>
+<li><code>stringr</code>: yet another one of Hadley’s packages for string manipulation</li>
+<li><code>RMedicareData</code>: a personal package I developed which can be used to source example data from <a href="https://data.medicare.gov/">data.medicare.gov/</a></li>
+</ul>
+<p>To demonstrate the functionality of <code>tidyr</code>, I will:</p>
+<ol style="list-style-type: decimal">
+<li>Source an example dataset</li>
+<li>Demonstrate each of the <code>tidyr</code> functions of note</li>
+<li>And finally, show the SQL, using <code>sqldf</code>, that would be required to conduct an analagous operation</li>
+</ol>
+<div id="source-our-data" class="section level1">
+<h1>Source our data</h1>
+<pre class="r"><code>library(RMedicareData)
+list_data()
+# source a dataset consisting of Readmissions and Death statistics as the hospital level
+d &lt;- get_data(59)
+# take a glimpse</code></pre>
+</div>
+<div id="demo-spread" class="section level1">
+<h1>Demo Spread</h1>
+</div>
+<div id="source-our-data-1" class="section level1">
+<h1>Source our data</h1>
+<pre class="r"><code>library(tidyr)
+# source a dataset consisting of Readmissions and Death statistics as the hospital level
+d1 &lt;- d %&gt;% 
+  select(Hospital.Name, Measure.Name, Score) %&gt;% 
+  spread(key = Measure.Name, value = Score)
+# take a glimpse</code></pre>
+</div>
+
+			</section>
+		</article>
+	</main>
+
+
+	<footer role="contentinfo">
+		<div class="hr"></div>
+		<div class="footer-link">
+			<a href="mailto:gregce@gmail.com" target="_blank">Email</a>
+			
+			
+			<a href="https://github.com/gregce/" target="_blank">GitHub</a>
+		</div>
+		<div class="copyright">Copyright &copy; © 2017 Greg Ceccarelli</div>
+	</footer>
+
+</div>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</body>
+</html>

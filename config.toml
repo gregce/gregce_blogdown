@@ -1,0 +1,26 @@
+baseurl = "/"
+relativeurls = true
+author = "Greg Ceccarelli"
+languageCode = "en-us"
+title = "Hi, I'm Greg Ceccarelli"
+theme = "hugo-zen"
+googleAnalytics = ""
+disqusShortname = ""
+ignoreFiles = ["\\.Rmd$", "_files$", "_cache$"]
+copyright = "© 2017 Greg Ceccarelli"
+
+[permalinks]
+    post = "/:year/:month/:day/:slug/"
+
+[params]
+    description = "My musings on data and R"
+    logo = "/images/gdc_avatar.png"
+    github = "https://github.com/gregce/"
+    email = "gregce@gmail.com"
+
+
+    # options for highlight.js (version, additional languages, and theme)
+    highlightjsVersion = "9.9.0"
+    highlightjsLang = ["r", "yaml"]
+    highlightjsTheme = "github"
+

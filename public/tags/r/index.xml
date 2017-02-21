@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>R on Hi, I&#39;m Greg Ceccarelli</title>
+    <link>/tags/r/index.xml</link>
+    <description>Recent content in R on Hi, I&#39;m Greg Ceccarelli</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© 2017 Greg Ceccarelli</copyright>
+    <atom:link href="/tags/r/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Test post</title>
+      <link>/2017/02/20/test-post/</link>
+      <pubDate>Mon, 20 Feb 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/2017/02/20/test-post/</guid>
+      <description>&lt;pre&gt;&lt;code class=&#34;language-r setup, include=FALSE&#34;&gt;knitr::opts_chunk$set(echo = TRUE)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Throughout my graduate studies, I&amp;rsquo;ve used R quite a bit and have grown fond of it. When it comes to doing data science and machine learning, R fits the bill nicely. Not to mention R has a huge following and is currently one of the most popular languages in the world. As a result, it has a very active community and a huge selection of packages that pretty much allows R to do anything you want like reproducible reporting.&lt;/p&gt;
+
+&lt;p&gt;One of the key skills of a data scientist is to communicate and share your analyses/models with your peers or stakeholders. If you can&amp;rsquo;t effectively show what you did, then what&amp;rsquo;s the point? The guys at RStudio have created a great solution called R Markdown. If you&amp;rsquo;ve ever used Markdown, then you know how easy it is. R Markdown allows one to embed R code into a reporting document. Just start a new .Rmd file in RStudio and adjust the YAML front matter at the very top of the document and you&amp;rsquo;re good to go. R Markdown borrows the syntax from vanilla Markdown where most of the difference is in parameterizing the code chunks. R Markdown is amazing for reproducibility. Also, anyone that&amp;rsquo;s ever seen a R Markdown document knows it&amp;rsquo;s one of the prettier looking documents. R Markdown even has the capability to embed Shiny apps/interactive widgets.&lt;/p&gt;
+
+&lt;p&gt;However, there is one drawback to R Markdown right now and that&amp;rsquo;s blogging. In an ideal world, I would be in RStudio, writing a post in R Markdown and pushing it to github pages and be done with it. But it&amp;rsquo;s not there yet. I&amp;rsquo;ve seen many solutions from using Jekyll (which I haven&amp;rsquo;t found to be easy) to spinning up your own AWS EC2 instance and setting up a blog there to host html files. Most seem like more work than it should be just to put up a nice looking R Markdown page. After much searching around, I found &lt;a href=&#34;https://github.com/rstudio/blogdown&#34;&gt;blogdown&lt;/a&gt; by Yihui Xie, the man who created Knitr. Blogdown uses &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;, a blogging framework for static pages built using the &lt;a href=&#34;https://golang.org/&#34;&gt;Go&lt;/a&gt; language. One word of warning, blogdown is still under development, but I&amp;rsquo;ve tested it out and there have been minor issues, but most of it is because there is no documentation right now if you&amp;rsquo;re stuck. I&amp;rsquo;ve had to go under the hood and look at the code to figure out what functions to run. Below I&amp;rsquo;ll show a quick way to get set up so that blogging with R Markdown is joy from start to finish.&lt;/p&gt;
+
+&lt;p&gt;Assuming you already have R/RStudio installed, you&amp;rsquo;ll need to download the blogdown package to your machine like so:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r, eval=FALSE&#34;&gt;devtools::install_github(&#39;rstudio/blogdown&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Next, you&amp;rsquo;ll need to install Hugo to your local machine using the blogdown function &lt;code&gt;install_hugo()&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r, eval=FALSE&#34;&gt;blogdown::install_hugo()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now, we can create a new directory for our webpage and make sure to set your working directory to that new directory. Once in your empty directory, run the following command:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r, eval=FALSE&#34;&gt;blogdown::new_site()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If the above does not work, make sure you are creating a completely empty directory. I ran into a few issues when I tried to run the above function on a directory with a .Rproj file in it. So remember, the directory will need to be &lt;em&gt;totally empty&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;The above command will generate all the necessary skeleton files needed to generate the blog and launch it in the console. It will also show a preview of your blog in the viewer window in RStudio. The above command also automatically downloads a theme, but this can easily be changed if you choose with the below command. You can find more Hugo themes at &lt;a href=&#34;themes.gohugo.io&#34;&gt;here&lt;/a&gt;. My current theme is academic. You can change it to whatever you want by specifying the github repo and the theme name as shown below in quotes.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r, eval=FALSE&#34;&gt;blogdown::install_theme(&#39;gcushen/hugo-academic&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Keep in mind when you install a new theme, the config file &lt;code&gt;config.toml&lt;/code&gt; will update to use the most recently downloaded theme as default. So to change it in the future just go into the &lt;code&gt;config.toml&lt;/code&gt; file and adjust the &lt;code&gt;theme =&lt;/code&gt; parameter to the name of the theme you want.&lt;/p&gt;
+
+&lt;p&gt;When you&amp;rsquo;re happy with the theme, it&amp;rsquo;s good practice to preview your blog before pushing it out to the world. Run the following in your console:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r, eval=FALSE&#34;&gt;blogdown::serve_site()
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

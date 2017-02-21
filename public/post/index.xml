@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Hi, I&#39;m Greg Ceccarelli</title>
+    <link>/post/index.xml</link>
+    <description>Recent content in Posts on Hi, I&#39;m Greg Ceccarelli</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© 2017 Greg Ceccarelli</copyright>
+    <lastBuildDate>Mon, 20 Feb 2017 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Using Tidyr</title>
+      <link>/2017/02/20/using-tidyr/</link>
+      <pubDate>Mon, 20 Feb 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/2017/02/20/using-tidyr/</guid>
+      <description>&lt;!-- BLOGDOWN-HEAD --&gt;
+
+
+
+&lt;!-- /BLOGDOWN-HEAD --&gt;
+
+&lt;!-- BLOGDOWN-BODY-BEFORE --&gt;
+
+&lt;!-- /BLOGDOWN-BODY-BEFORE --&gt;
+
+&lt;p&gt;I believe it’s fitting that my first foray into blogging about &lt;code&gt;R&lt;/code&gt; programming should be about a topic &amp;amp; package (&lt;code&gt;tidyr&lt;/code&gt;) that are essential to a practicing Data Scientist’s toolkit - data munging. Hadley Wickham’s package &lt;a href=&#34;https://github.com/hadley/tidyr&#34;&gt;&lt;code&gt;tidyr&lt;/code&gt;&lt;/a&gt; provides a number of convenience functions to, in his words, ensure that:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Each column is a variable.&lt;/li&gt;
+&lt;li&gt;Each row is an observation.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Why is this important you might ask? Well for a number of reasons but below are the most important two:&lt;/p&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;Many &lt;code&gt;R&lt;/code&gt; functions expect a &lt;code&gt;data.frame&lt;/code&gt; to be passed in as a parameter (i.e the fundamental data structure in R, which in most cases fits the definition of “tidy” above)&lt;/li&gt;
+&lt;li&gt;This standard, very akin to the relational database model developed by Codd, allows you to not have to reinvent a represtation at each go and rather focus on the analysis/exploration/visualization processes that got your excited about &lt;code&gt;R&lt;/code&gt; programming in the first place.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Like most, I enjoy applied examples, and when I originally read Hadley’s original &lt;a href=&#34;https://blog.rstudio.org/2014/07/22/introducing-tidyr/&#34;&gt;Rstudio post&lt;/a&gt; introducing &lt;code&gt;tidyr&lt;/code&gt; I felt it was a bit lacking in explanation and didn’t necessarily help &lt;code&gt;tidyr&lt;/code&gt; to truly shine. The purpose of this post is to show you how &lt;code&gt;tidyr&lt;/code&gt;’s main features compares to common SQL commands used to pivot/un-pivot data as well as parse values into columns (which occaisionally may be difficult -&amp;gt; impossible depending on your SQL flavor).&lt;/p&gt;
+&lt;p&gt;For the purpose of both clarity and brevity, I will only use the following packages in this post:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;tidyr&lt;/code&gt;: the package of interest. Specially we’ll cover it’s four main verbs:
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;gather()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;spread()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;unite()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;separate()&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;SQLDF&lt;/code&gt;: a package developed developed by G. Grothendieck that allows one to write SQL against data.frames&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;dplyr&lt;/code&gt;: another one of Hadely’s packages that makes data manipulation in &lt;code&gt;R&lt;/code&gt;, SQL-like&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;stringr&lt;/code&gt;: yet another one of Hadley’s packages for string manipulation&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;RMedicareData&lt;/code&gt;: a personal package I developed which can be used to source example data from &lt;a href=&#34;https://data.medicare.gov/&#34;&gt;data.medicare.gov/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;To demonstrate the functionality of &lt;code&gt;tidyr&lt;/code&gt;, I will:&lt;/p&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;Source an example dataset&lt;/li&gt;
+&lt;li&gt;Demonstrate each of the &lt;code&gt;tidyr&lt;/code&gt; functions of note&lt;/li&gt;
+&lt;li&gt;And finally, show the SQL, using &lt;code&gt;sqldf&lt;/code&gt;, that would be required to conduct an analagous operation&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div id=&#34;source-our-data&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Source our data&lt;/h1&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(RMedicareData)
+list_data()
+# source a dataset consisting of Readmissions and Death statistics as the hospital level
+d &amp;lt;- get_data(59)
+# take a glimpse&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;demo-spread&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Demo Spread&lt;/h1&gt;
+&lt;/div&gt;
+&lt;div id=&#34;source-our-data-1&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Source our data&lt;/h1&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyr)
+# source a dataset consisting of Readmissions and Death statistics as the hospital level
+d1 &amp;lt;- d %&amp;gt;% 
+  select(Hospital.Name, Measure.Name, Score) %&amp;gt;% 
+  spread(key = Measure.Name, value = Score)
+# take a glimpse&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

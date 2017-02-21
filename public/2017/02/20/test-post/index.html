@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.18.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<link rel="stylesheet" href="../../../../css/normalize.css">
+<link rel="stylesheet" href="../../../../css/skeleton.css">
+<link rel="stylesheet" href="../../../../css/custom.css">
+<link rel="alternate" href="../../../../index.xml" type="application/rss+xml" title="Hi, I&#39;m Greg Ceccarelli">
+<title>Test post - Hi, I&#39;m Greg Ceccarelli</title>
+</head>
+<body>
+
+<div class="container">
+
+	<header role="banner">
+		<div class="header-logo">
+			<a href="../../../../"><img src="../../../../images/gdc_avatar.png" width="60" height="60" alt="Hi, I&#39;m Greg Ceccarelli"></a>
+		</div>
+		
+	</header>
+
+
+	<main role="main">
+		<article itemscope itemtype="http://schema.org/BlogPosting">
+			<h1 class="entry-title" itemprop="headline">Test post</h1>
+			<span class="entry-meta"><time itemprop="datePublished" datetime="2017-02-20">February 20, 2017</time></span>
+			<section itemprop="entry-text">
+				<pre><code class="language-r setup, include=FALSE">knitr::opts_chunk$set(echo = TRUE)
+</code></pre>
+
+<p>Throughout my graduate studies, I&rsquo;ve used R quite a bit and have grown fond of it. When it comes to doing data science and machine learning, R fits the bill nicely. Not to mention R has a huge following and is currently one of the most popular languages in the world. As a result, it has a very active community and a huge selection of packages that pretty much allows R to do anything you want like reproducible reporting.</p>
+
+<p>One of the key skills of a data scientist is to communicate and share your analyses/models with your peers or stakeholders. If you can&rsquo;t effectively show what you did, then what&rsquo;s the point? The guys at RStudio have created a great solution called R Markdown. If you&rsquo;ve ever used Markdown, then you know how easy it is. R Markdown allows one to embed R code into a reporting document. Just start a new .Rmd file in RStudio and adjust the YAML front matter at the very top of the document and you&rsquo;re good to go. R Markdown borrows the syntax from vanilla Markdown where most of the difference is in parameterizing the code chunks. R Markdown is amazing for reproducibility. Also, anyone that&rsquo;s ever seen a R Markdown document knows it&rsquo;s one of the prettier looking documents. R Markdown even has the capability to embed Shiny apps/interactive widgets.</p>
+
+<p>However, there is one drawback to R Markdown right now and that&rsquo;s blogging. In an ideal world, I would be in RStudio, writing a post in R Markdown and pushing it to github pages and be done with it. But it&rsquo;s not there yet. I&rsquo;ve seen many solutions from using Jekyll (which I haven&rsquo;t found to be easy) to spinning up your own AWS EC2 instance and setting up a blog there to host html files. Most seem like more work than it should be just to put up a nice looking R Markdown page. After much searching around, I found <a href="https://github.com/rstudio/blogdown">blogdown</a> by Yihui Xie, the man who created Knitr. Blogdown uses <a href="https://gohugo.io/">Hugo</a>, a blogging framework for static pages built using the <a href="https://golang.org/">Go</a> language. One word of warning, blogdown is still under development, but I&rsquo;ve tested it out and there have been minor issues, but most of it is because there is no documentation right now if you&rsquo;re stuck. I&rsquo;ve had to go under the hood and look at the code to figure out what functions to run. Below I&rsquo;ll show a quick way to get set up so that blogging with R Markdown is joy from start to finish.</p>
+
+<p>Assuming you already have R/RStudio installed, you&rsquo;ll need to download the blogdown package to your machine like so:</p>
+
+<pre><code class="language-r, eval=FALSE">devtools::install_github('rstudio/blogdown')
+</code></pre>
+
+<p>Next, you&rsquo;ll need to install Hugo to your local machine using the blogdown function <code>install_hugo()</code>:</p>
+
+<pre><code class="language-r, eval=FALSE">blogdown::install_hugo()
+</code></pre>
+
+<p>Now, we can create a new directory for our webpage and make sure to set your working directory to that new directory. Once in your empty directory, run the following command:</p>
+
+<pre><code class="language-r, eval=FALSE">blogdown::new_site()
+</code></pre>
+
+<p>If the above does not work, make sure you are creating a completely empty directory. I ran into a few issues when I tried to run the above function on a directory with a .Rproj file in it. So remember, the directory will need to be <em>totally empty</em>.</p>
+
+<p>The above command will generate all the necessary skeleton files needed to generate the blog and launch it in the console. It will also show a preview of your blog in the viewer window in RStudio. The above command also automatically downloads a theme, but this can easily be changed if you choose with the below command. You can find more Hugo themes at <a href="themes.gohugo.io">here</a>. My current theme is academic. You can change it to whatever you want by specifying the github repo and the theme name as shown below in quotes.</p>
+
+<pre><code class="language-r, eval=FALSE">blogdown::install_theme('gcushen/hugo-academic')
+</code></pre>
+
+<p>Keep in mind when you install a new theme, the config file <code>config.toml</code> will update to use the most recently downloaded theme as default. So to change it in the future just go into the <code>config.toml</code> file and adjust the <code>theme =</code> parameter to the name of the theme you want.</p>
+
+<p>When you&rsquo;re happy with the theme, it&rsquo;s good practice to preview your blog before pushing it out to the world. Run the following in your console:</p>
+
+<pre><code class="language-r, eval=FALSE">blogdown::serve_site()
+</code></pre>
+
+			</section>
+		</article>
+	</main>
+
+
+	<footer role="contentinfo">
+		<div class="hr"></div>
+		<div class="footer-link">
+			<a href="mailto:gregce@gmail.com" target="_blank">Email</a>
+			
+			
+			<a href="https://github.com/gregce/" target="_blank">GitHub</a>
+		</div>
+		<div class="copyright">Copyright &copy; © 2017 Greg Ceccarelli</div>
+	</footer>
+
+</div>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</body>
+</html>
